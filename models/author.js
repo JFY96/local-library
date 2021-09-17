@@ -45,5 +45,17 @@ AuthorSchema
 		return `/catalog/author/${this._id}`;
 	});
 
+// Virtual for date of birth/death formatted in form yyyy-mm-dd
+AuthorSchema
+	.virtual('date_of_birth_formatted')
+	.get(function() {
+		return DateTime.fromJSDate(this.date_of_birth).toFormat('yyyy-LL-dd');
+	});
+AuthorSchema
+	.virtual('date_of_death_formatted')
+	.get(function() {
+		return DateTime.fromJSDate(this.date_of_death).toFormat('yyyy-LL-dd');
+	});
+
 // Export model
 module.exports = mongoose.model('Author', AuthorSchema);

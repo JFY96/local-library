@@ -4,21 +4,23 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-
-let db_uri_dev = '';
-try { db_uri_dev = require("./config.json")?.db_uri || ''; } catch(e) {}
-
-const db_uri = process.env.MONGODB_URI || db_uri_dev;
-if (!db_uri) {
-	console.error('No DB URI found. Cannot start app.');
-	process.exit(1);
-}
+const helmet = require('helmet');
+const compression = require('compression');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog');
 
 const app = express();
+
+// Get MongoDB URI
+let db_uri_dev = '';
+try { db_uri_dev = require("./config.json")?.db_uri || ''; } catch(e) {}
+const db_uri = process.env.MONGODB_URI || db_uri_dev;
+if (!db_uri) {
+	console.error('No DB URI found. Cannot start app.');
+	process.exit(1);
+}
 
 // database connection
 mongoose
@@ -41,6 +43,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(helmet());
+app.use(compression());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

@@ -6,7 +6,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const config = require("./config.json");
-const db_uri = config.db_uri;
+const db_uri_dev = config.db_uri;
+const db_uri = process.env.MONGODB_URI || db_uri_dev;
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

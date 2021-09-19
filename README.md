@@ -16,3 +16,21 @@ This project is deployed to Heroku:
 - MongoDB and Mongoose
 - Pug (Templating language)
 
+## Quick Start
+
+To get it running locally on your pc:
+
+1. Set up Nodejs dev environment (npm etc)
+2. In root of this repo, install dependencies:
+    ```
+    npm install
+    ```
+3. Either:
+    - Add `config.json` file in root directory with development MongoDB URI that was set up for this app (see `config-TEMPLATE.json`)
+    - Set up environment variable for `MONGODB_URI` with this URI
+4. Start the server
+    ```
+    npm run devstart
+    ```
+5. Visit http://localhost:3000/ to view site
+   

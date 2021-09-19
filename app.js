@@ -5,9 +5,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-const config = require("./config.json");
-const db_uri_dev = config.db_uri;
+let db_uri_dev = '';
+try { db_uri_dev = require("./config.json")?.db_uri || ''; } catch(e) {}
+
 const db_uri = process.env.MONGODB_URI || db_uri_dev;
+if (!db_uri) {
+	console.error('No DB URI found. Cannot start app.');
+	process.exit(1);
+}
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
